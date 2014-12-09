@@ -1,0 +1,139 @@
+<div class="text">
+
+  <h2>Feedback control of online ads</h2>
+
+  <div class="left_col">
+
+    Say an online publisher charges for impressions of your
+    advertisement. The price you set determines the number of
+    impressions.  The book
+    [https://github.com/oreillymedia/feedback_control_for_computer_systems
+    Feedback Control for Computer Systems] (FCCS) suggests an
+    algorithm to adjust the price to achieve a target number of
+    impressions.
+
+  </div>
+
+  <div class="right_col">
+
+    The feedback system below forms the error between the reported and
+    the target number of impressions. The error is processed by the
+    controller and changes the price to reduce the error. Here we
+    simulate a (modified) example from FCSS that runs in the browser.
+
+  </div>
+
+  <div class="clear"></div>
+
+  <figure align="center">
+    <img id="system1" class="system">
+  </figure>
+
+  <div class="left_col">
+
+    The publisher&mdash;the number of impressions for a given
+    price&mdash;is modelled as a random variable whose mean and range
+    vary logarithmically.
+ 
+  </div>
+
+  <div class="right_col">
+
+    The code for the publisher below can be edited and run
+    (shift+enter after edit). The plot shows how impressions are
+    related to price (note that it changes with each run).
+
+  </div>
+
+  <div class="clear"></div>
+
+  <br>
+
+  <div class="left_col">
+    <div data-file="publisher.coffee"></div>
+  </div>    
+
+  <div class="right_col">
+    <div data-eval="publisher.coffee"></div>
+  </div>
+
+  <div class="clear"></div>
+
+ <br>
+
+  <div class="left_col">
+
+    For the controller we use simple integration. The overall state
+    diagram (with delay operator $z^{-1}$) is then as shown below.
+    Here $r$ is the target number of impressions, $k_i$ is the
+    integrator gain and $p()$ is the model of the publisher from above
+    (the delay following $p()$ models once-daily reporting).
+ 
+  </div>
+
+  <div class="right_col">
+
+    The two states are the outputs of the delay blocks. The transition
+    equations are found by tracing the block diagram
+    until either an input or another state is found:
+    $$
+    \begin{aligned}
+    x_1[l+1] & = x_1[l] + k_i(r-x_2[l]) \\
+    x_2[l+1] & = p\left(x_1[l] + k_i(r-x_2[l]) \right)
+    \end{aligned}
+    $$
+
+  </div>
+
+  <div class="clear"></div>
+
+  <figure align="center">
+    <img id="system2" class="system">
+  </figure>
+
+  <div class="clear"></div>
+
+  <div class="left_col">
+
+    The code below simulates the system (time step is 1 day), with the
+    important results shown on the right. The red trace shows the
+    target number of impressions&mdash;which jumps from 100 to 200
+    impressions on the 30th day. The green trace shows the reported
+    impressions (state $x_1$).
+ 
+  </div>
+
+  <div class="right_col">
+
+    The second plot shows the change in price (state $x_2$). Because
+    of the logrithmic nature of the publisher model, the price to
+    double the number of impressions is far greater than double. Click
+    on the code, then shift+enter to see the random variation.
+
+  </div>
+
+  <div class="clear"></div>
+
+  <br>
+
+  <div class="left_col">
+    <div data-file="main.coffee"></div>
+  </div>    
+
+  <div class="right_col">
+    <div data-eval="main.coffee"></div>
+  </div>
+
+  <div class="clear"></div>
+
+  <hr>
+
+  <div class="foot">
+
+    <div class="left">Powered by <a href="http://puzlet.org/">Puzlet</a>.</div>
+    <div class="right"><a href="../">Home</a></div>
+    <div class="center"><a href="https://twitter.com/toyproblem">@toyproblem</a></div>
+
+  </div>  
+
+</div>
