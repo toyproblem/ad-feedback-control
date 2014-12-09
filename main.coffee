@@ -2,7 +2,7 @@ p = $blab.p #; Import from above
 
 fig2 = figure
     xlabel: "Time (days)"
-    ylabel: "Impressions (x2)"
+    ylabel: "Impressions (r, x2)"
     colors: ["red","green"]
     height: 180
     series:
